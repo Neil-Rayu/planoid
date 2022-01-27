@@ -9,15 +9,27 @@
   });
 
   let todoText;
-  $: todoId = totalTodos ? Math.max(...$todoData.map((t) => t.id)) + 1 : 1;
+  $: idNumber = totalTodos ? $todoData.at(-1).idNum + 1 : 1;
   $: totalTodos = $todoData.length;
+  $: todoId = 'main-todo' + idNumber;
   let inner;
 
   const timeData = [];
   const locData = [];
+  let todoImportantFlag = false;
+  let todoUrgentFlag = false;
 
   function addTodo() {
-    $todoData = [...$todoData, { id: todoId, name: todoText }];
+    $todoData = [
+      ...$todoData,
+      {
+        name: todoText,
+        importantFlag: todoImportantFlag,
+        urgentFlag: todoUrgentFlag,
+        idNum: idNumber,
+        id: todoId
+      }
+    ];
     todoText = '';
   }
 

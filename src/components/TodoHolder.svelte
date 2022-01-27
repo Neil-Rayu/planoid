@@ -1,22 +1,29 @@
 <script>
-  import Todo from './Todo.svelte';
-  import { urgentImportantTodo } from '../stores/todoStore.js';
+  import UnchangeTodo from './UnchangeTodo.svelte';
+  import { todoData } from '../stores/todoStore.js';
 
-  let todoText;
-  $: todoId = totalTodos
-    ? 'todoHolder-' + Math.max(...$urgentImportantTodo.map((t) => t.id)) + 1
-    : 1;
-  $: totalTodos = $urgentImportantTodo.length;
   export let title;
 </script>
 
 <div class="todo-container">
   <span class="title">{title}</span>
   <hr style="width: 100%;" />
-  {#if $urgentImportantTodo}
-    {#each $urgentImportantTodo as todo}
-      <Todo bind:todoText={todo.name} bind:todoId />
-    {/each}
+  {#if title === 'Urgent & Important'}
+    <ul class="todo-list">
+      {#each $todoData as todo}
+        {#if todo.urgentFlag == true && todo.importantFlag == true}
+          <UnchangeTodo bind:todoText={todo.name} />
+        {/if}
+      {/each}
+    </ul>
+  {:else}
+    <ul class="todo-list">
+      {#each $todoData as todo}
+        {#if todo.importantFlag == true && todo.urgentFlag != true}
+          <UnchangeTodo bind:todoText={todo.name} />
+        {/if}
+      {/each}
+    </ul>
   {/if}
 </div>
 
@@ -37,5 +44,18 @@
     align-items: flex-start;
     margin-top: 2%;
     margin-right: 2%;
+    .todo-list {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      width: 100%;
+
+      list-style: none;
+      --background: #121212;
+      --text: #fff;
+      --check: #ffc00a;
+      --disabled: #414856;
+    }
   }
 </style>

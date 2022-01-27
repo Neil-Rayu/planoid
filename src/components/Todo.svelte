@@ -24,7 +24,7 @@ DEALINGS IN THE SOFTWARE.
 
 -->
 <script>
-  import { urgentImportantTodo } from '../stores/todoStore.js';
+  import { todoData } from '../stores/todoStore.js';
 
   export let todoText;
   export let todoId;
@@ -34,15 +34,20 @@ DEALINGS IN THE SOFTWARE.
   let important;
   let urgent;
 
+  let todo = $todoData.at($todoData.findIndex((t) => t.id === todoId));
+
   function addImportant() {
-    important.style.color = '#ffc00a';
-    $urgentImportantTodo = [...$urgentImportantTodo, { name: todoText, importantFlag: true }];
+    todo.importantFlag = !todo.importantFlag;
+    important.style.color = todo.importantFlag ? '#ffc00a' : '#fff';
+    $todoData = $todoData;
     // $urgentImportantTodo.find(
     //   ($urgentImportantTodo) => $urgentImportantTodo.id === todoId
     // ).importantFlag = true;
   }
   function addUrgent() {
-    urgent.style.color = '#ffc00a';
+    todo.urgentFlag = !todo.urgentFlag;
+    urgent.style.color = todo.urgentFlag ? '#ffc00a' : '#fff';
+    $todoData = $todoData;
     // $urgentImportantTodo.find(
     //   ($urgentImportantTodo) => $urgentImportantTodo.id === todoId
     // ).urgentFlag = true;
@@ -73,6 +78,9 @@ DEALINGS IN THE SOFTWARE.
     .important-icon-wrapper {
       opacity: 0%;
       margin-top: 15px;
+      &:hover {
+        cursor: pointer;
+      }
     }
     &:hover {
       .important-icon-wrapper {
