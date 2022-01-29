@@ -10,7 +10,11 @@ const config = {
 
   kit: {
     adapter: adapter(),
-
+    vite: {
+      ssr: {
+        noExternal: ['dayjs']
+      }
+    },
     // hydrate the <div id="svelte"> element in src/app.html
     target: '#svelte'
   }

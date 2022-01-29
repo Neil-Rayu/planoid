@@ -11,7 +11,9 @@
   let todoText;
   $: idNumber = totalTodos ? $todoData.at(-1).idNum + 1 : 1;
   $: totalTodos = $todoData.length;
-  $: todoId = 'main-todo' + idNumber;
+  $: todoId = 'main-todo-' + idNumber;
+  $: todoUrgentImportantId = 'urgent-important-todo-' + idNumber;
+  $: todoBackburnerId = 'backburner-' + idNumber;
   let inner;
 
   const timeData = [];
@@ -27,7 +29,9 @@
         importantFlag: todoImportantFlag,
         urgentFlag: todoUrgentFlag,
         idNum: idNumber,
-        id: todoId
+        id: todoId,
+        urgentImportantId: todoUrgentImportantId,
+        backburnerId: todoBackburnerId
       }
     ];
     todoText = '';

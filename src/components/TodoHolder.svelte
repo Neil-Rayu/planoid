@@ -1,6 +1,7 @@
 <script>
   import UnchangeTodo from './UnchangeTodo.svelte';
   import { todoData } from '../stores/todoStore.js';
+  import Todo from './Todo.svelte';
 
   export let title;
 </script>
@@ -12,7 +13,7 @@
     <ul class="todo-list">
       {#each $todoData as todo}
         {#if todo.urgentFlag == true && todo.importantFlag == true}
-          <UnchangeTodo bind:todoText={todo.name} />
+          <UnchangeTodo bind:todoText={todo.name} bind:todoId={todo.urgentImportantId} />
         {/if}
       {/each}
     </ul>
@@ -20,7 +21,7 @@
     <ul class="todo-list">
       {#each $todoData as todo}
         {#if todo.importantFlag == true && todo.urgentFlag != true}
-          <UnchangeTodo bind:todoText={todo.name} />
+          <UnchangeTodo bind:todoText={todo.name} bind:todoId={todo.backburnerId} />
         {/if}
       {/each}
     </ul>

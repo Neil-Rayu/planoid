@@ -9,17 +9,17 @@
   <div class="link-wrapper">
     <div id="home-tab" class="tab-container">
       <span class="material-icons"> home </span>
-      <a href="index.html" class="tab-text"> Home </a>
+      <a href="/" class="tab-text"> Home </a>
     </div>
     <div id="plan-ahead-tab" class="tab-container">
       <span class="material-icons"> calendar_month </span>
-      <a href="./src/FuturePlans.svelte" class="tab-text"> Future Plans </a>
+      <a href="/FuturePlans" class="tab-text"> Future Plans </a>
     </div>
     <div id="energy-data-tab" class="tab-container">
       <span class="material-icons"> trending_up </span>
-      <a href="./src/EnergyChart.svelte" class="tab-text"> Energy Chart</a>
+      <a href="/EnergyChart" class="tab-text"> Energy Chart</a>
     </div>
-    <div id="project-tab" class="tab-container">x</div>
+    <!-- <div id="project-tab" class="tab-container">x</div> -->
   </div>
 </div>
 

@@ -4,7 +4,7 @@
   //export let flag = [];
 </script>
 
-<li id={todoId}>{todoText}</li>
+<li id={todoId}>{todoText}<input type="text" placeholder="hello(fix this!)" /></li>
 
 <style lang="scss">
   li {

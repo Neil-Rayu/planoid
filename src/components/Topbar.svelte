@@ -1,5 +1,9 @@
 <script>
+  import { settingToggle } from '../stores/todoStore';
   export let topbarHeading;
+  function toggleSettings() {
+    $settingToggle = true;
+  }
 </script>
 
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
@@ -8,7 +12,7 @@
   <div class="top-bar">
     <span class="material-icons">menu</span>
     <span>{topbarHeading}</span>
-    <span class="material-icons">settings</span>
+    <span class="material-icons" on:click={toggleSettings}>settings</span>
   </div>
 </main>
 
