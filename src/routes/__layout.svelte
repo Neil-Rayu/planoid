@@ -17,7 +17,9 @@
   <Topbar bind:topbarHeading={$pageData} />
   <div class="bottom-content">
     <Sidebar />
-    <Settings bind:this={settings} />
+    {#if $settingToggle}
+      <Settings bind:this={settings} />
+    {/if}
     <slot class="main-content" />
   </div>
 </div>

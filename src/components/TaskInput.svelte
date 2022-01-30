@@ -1,6 +1,6 @@
 <script>
   import Todo from './Todo.svelte';
-  import { todoData } from '../stores/todoStore.js';
+  import { todoData, addTodo } from '../stores/todoStore.js';
 
   let date = new Date().toLocaleDateString('en-US', {
     day: 'numeric',
@@ -9,7 +9,7 @@
   });
 
   let todoText;
-  $: idNumber = totalTodos ? $todoData.at(-1).idNum + 1 : 1;
+  $: idNumber = totalTodos > 0 ? $todoData.at(-1).idNum + 1 : 0;
   $: totalTodos = $todoData.length;
   $: todoId = 'main-todo-' + idNumber;
   $: todoUrgentImportantId = 'urgent-important-todo-' + idNumber;
@@ -21,19 +21,16 @@
   let todoImportantFlag = false;
   let todoUrgentFlag = false;
 
-  function addTodo() {
-    $todoData = [
-      ...$todoData,
-      {
-        name: todoText,
-        importantFlag: todoImportantFlag,
-        urgentFlag: todoUrgentFlag,
-        idNum: idNumber,
-        id: todoId,
-        urgentImportantId: todoUrgentImportantId,
-        backburnerId: todoBackburnerId
-      }
-    ];
+  function onSumbit() {
+    addTodo({
+      text: todoText,
+      importantFlag: todoImportantFlag,
+      urgentFlag: todoUrgentFlag,
+      idNum: idNumber,
+      id: todoId,
+      urgentImportantId: todoUrgentImportantId,
+      backburnerId: todoBackburnerId
+    });
     todoText = '';
   }
 
@@ -79,7 +76,13 @@
           id="task-input"
           placeholder="Format: (task name, length, location)"
         />
-        <input on:click={addTodo} type="button" name="submit" value="Add" class="add-task-button" />
+        <input
+          on:click={onSumbit}
+          type="button"
+          name="submit"
+          value="Add"
+          class="add-task-button"
+        />
         <input on:click={closeTask} type="button" class="cancel-task" value="Cancel" />
       </form>
     </div>

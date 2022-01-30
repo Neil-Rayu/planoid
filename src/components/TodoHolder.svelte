@@ -49,7 +49,6 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      justify-content: flex-start;
       width: 100%;
 
       list-style: none;

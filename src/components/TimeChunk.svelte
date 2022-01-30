@@ -4,7 +4,7 @@
   //export let flag = [];
 </script>
 
-<li id={todoId}>{todoText}<input type="text" placeholder="hello(fix this!)" /></li>
+<li id={todoId}>{todoText}:<input type="text" placeholder="hello(fix this!)" /></li>
 
 <style lang="scss">
   li {
@@ -18,6 +18,14 @@
       display: inline-block; /* Needed to add space between the bullet and the text */
       width: 1em; /* Also needed for space (tweak if needed) */
       margin-left: -1em; /* Also needed for space (tweak if needed) */
+    }
+    input {
+      margin-left: 3%;
+      appearance: none;
+      background-color: #121212;
+      color: white;
+      border: none;
+      font-size: medium;
     }
   }
 </style>

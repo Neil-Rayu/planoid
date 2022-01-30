@@ -1,9 +1,6 @@
 <script>
-  import { settingToggle } from '../stores/todoStore';
+  import { toggleSettings } from '../stores/todoStore';
   export let topbarHeading;
-  function toggleSettings() {
-    $settingToggle = true;
-  }
 </script>
 
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
