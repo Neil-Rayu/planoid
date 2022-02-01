@@ -9,6 +9,9 @@
   function toggle() {
     dateToggle = !dateToggle;
   }
+  function onSubmit() {
+    addDate(todoDate, todoId);
+  }
 </script>
 
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
@@ -20,7 +23,7 @@
     <div class="calendar">
       <DateInput bind:value={todoDate} format={'yyyy/MM/dd'} />
       <input type="text" id="time-span-input" placeholder="Formate: x:xx-x:xx" />
-      <input type="button" on:click={addDate} value="Submit" />
+      <input type="button" on:click={onSubmit} value="Submit" />
     </div>
   {/if}
 </div>

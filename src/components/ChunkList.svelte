@@ -1,12 +1,14 @@
 <script>
-  import { startEndData } from '../stores/todoStore';
+  import { startEndData, setChunkList } from '../stores/todoStore';
   import TimeChunk from '../components/TimeChunk.svelte';
   let chunkTimes = [];
   for (let i = $startEndData.start; i < $startEndData.end; i++) {
     chunkTimes.push(`${i}:00-${i + 1}:00`);
   }
+  setChunkList(chunkTimes);
+  chunkTimes = [];
   function insertChunk(start, end) {
-    for (let i = $startEndData.start; i < end; i++) {
+    for (let i = $startEndData.start; i < start; i++) {
       chunkTimes.push(`${i}:00-${i + 1}:00`);
     }
   }

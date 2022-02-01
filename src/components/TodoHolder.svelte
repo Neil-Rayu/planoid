@@ -1,6 +1,6 @@
 <script>
   import UnchangeTodo from './UnchangeTodo.svelte';
-  import { todoData } from '../stores/todoStore.js';
+  import { todoData } from '../stores/todoStore';
   import Todo from './Todo.svelte';
 
   export let title;

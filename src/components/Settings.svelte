@@ -1,4 +1,5 @@
-<script>
+<script lang="ts">
+  let startTime: string;
 </script>
 
 <div class="settings">
@@ -8,7 +9,7 @@
   </div>
   <div class="main-content">
     <label for="day-start-time">Day Start Time:</label>
-    <input type="number" name="dayStart" id="day-start-time" />
+    <input type="number" name="dayStart" id="day-start-time" bind:value={startTime} />
     <label for="day-end-time">Day End Time:</label>
     <input type="number" name="dayEnd" id="day-end-time" />
     <label for="chunk-length">Chunk Length:</label>

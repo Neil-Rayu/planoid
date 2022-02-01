@@ -1,5 +1,5 @@
 <script>
-  import { todoData, toggleImportantFlag, toggleUrgentFlag } from '../stores/todoStore.js';
+  import { todoData, toggleImportantFlag, toggleUrgentFlag } from '../stores/todoStore';
 
   export let todoText;
   export let todoId;

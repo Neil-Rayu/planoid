@@ -1,6 +1,7 @@
-<script>
+<script lang="ts">
   import Todo from './Todo.svelte';
-  import { todoData, addTodo } from '../stores/todoStore.js';
+  import { todoData, addTodo } from '../stores/todoStore';
+  import { prevent_default } from 'svelte/internal';
 
   let date = new Date().toLocaleDateString('en-US', {
     day: 'numeric',
@@ -8,7 +9,7 @@
     year: 'numeric'
   });
 
-  let todoText;
+  let todoText: string;
   $: idNumber = totalTodos > 0 ? $todoData.at(-1).idNum + 1 : 0;
   $: totalTodos = $todoData.length;
   $: todoId = 'main-todo-' + idNumber;
@@ -23,7 +24,7 @@
 
   function onSumbit() {
     addTodo({
-      text: todoText,
+      name: todoText,
       importantFlag: todoImportantFlag,
       urgentFlag: todoUrgentFlag,
       idNum: idNumber,
@@ -69,20 +70,14 @@
       {/each}
     </div>
     <div bind:this={inner} class="input-container">
-      <form action="" class="taskForm">
+      <form action="" class="taskForm" on:submit|preventDefault={onSumbit}>
         <input
           bind:value={todoText}
           type="text"
           id="task-input"
           placeholder="Format: (task name, length, location)"
         />
-        <input
-          on:click={onSumbit}
-          type="button"
-          name="submit"
-          value="Add"
-          class="add-task-button"
-        />
+        <input type="Submit" name="submit" value="Add" class="add-task-button" />
         <input on:click={closeTask} type="button" class="cancel-task" value="Cancel" />
       </form>
     </div>
