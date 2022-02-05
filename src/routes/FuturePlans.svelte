@@ -1,9 +1,11 @@
 <script>
-  import { pageData, dateData } from '../stores/todoStore';
+  import { pageData } from '../stores/todoStore';
   import { DateInput } from 'date-picker-svelte';
   import ChunkList from '../components/ChunkList.svelte';
   $pageData = 'Future Plans';
   let selected;
+
+  var today = new Date().toLocaleDateString();
 </script>
 
 <svelte-head>
@@ -15,7 +17,7 @@
     <DateInput />
   </div>
   <div class="time-chunk-wrapper">
-    <ChunkList />
+    <ChunkList listDate={today} />
   </div>
 </div>
 

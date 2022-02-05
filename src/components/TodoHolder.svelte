@@ -13,7 +13,7 @@
     <ul class="todo-list">
       {#each $todoData as todo}
         {#if todo.urgentFlag == true && todo.importantFlag == true}
-          <UnchangeTodo bind:todoText={todo.name} bind:todoId={todo.urgentImportantId} />
+          <UnchangeTodo bind:todo />
         {/if}
       {/each}
     </ul>
@@ -21,7 +21,7 @@
     <ul class="todo-list">
       {#each $todoData as todo}
         {#if todo.importantFlag == true && todo.urgentFlag != true}
-          <UnchangeTodo bind:todoText={todo.name} bind:todoId={todo.backburnerId} />
+          <UnchangeTodo bind:todo />
         {/if}
       {/each}
     </ul>

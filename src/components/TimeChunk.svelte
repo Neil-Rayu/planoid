@@ -1,10 +1,14 @@
 <script>
-  export let todoText;
-  export let todoId;
+  export let todoTime;
+  export let todo;
   //export let flag = [];
 </script>
 
-<li id={todoId}>{todoText}:<input type="text" placeholder="hello(fix this!)" /></li>
+{#if todo != null}
+  <li id={todo.id}>{todoTime}:<input type="text" value={todo.name} /></li>
+{:else}
+  <li id={todoTime}>{todoTime}:<input type="text" placeholder="add a task" /></li>
+{/if}
 
 <style lang="scss">
   li {

@@ -1,22 +1,52 @@
 <script>
-  import { startEndData, setChunkList } from '../stores/todoStore';
+  export let listDate;
+  import {
+    startEndData,
+    setChunkList,
+    todoData,
+    chunkData,
+    dateHasTodo
+  } from '../stores/todoStore';
   import TimeChunk from '../components/TimeChunk.svelte';
-  let chunkTimes = [];
-  for (let i = $startEndData.start; i < $startEndData.end; i++) {
-    chunkTimes.push(`${i}:00-${i + 1}:00`);
+  console.log(listDate);
+  //console.log($todoData.at(0).date);
+  let todos = [];
+  if ($todoData.length > 0) {
+    todos = $todoData
+      .filter(($todoData) => $todoData.date == listDate)
+      .sort(($todoData) => $todoData.range.startHour);
   }
-  setChunkList(chunkTimes);
-  chunkTimes = [];
-  function insertChunk(start, end) {
-    for (let i = $startEndData.start; i < start; i++) {
-      chunkTimes.push(`${i}:00-${i + 1}:00`);
+  console.log(todos);
+  let chunkTimes = [];
+  let length = todos.length;
+  if (length > 0) {
+    let t = 0;
+    for (let i = Number($startEndData.start); i < Number($startEndData.end); i++) {
+      if (t < length && todos.at(t).range.startHour < i) {
+        chunkTimes.push({
+          time: `${i - 1}:00-${todos[t].range.startHour}:${todos[t].range.startMin}`,
+          todo: null
+        });
+        chunkTimes.push({
+          time: `${todos[t].range.startHour}:${todos[t].range.startMin}-${todos[t].range.endMin}:00`,
+          todo: todos[t]
+        });
+        t++;
+      } else {
+        chunkTimes.push({ time: `${i}:00-${i + 1}:00`, todo: null });
+      }
     }
+    /**
+     * Todo: Make it so that when the todo is passed as null;
+     * it gives option to add a todo,
+     * and fix edge cases wherer the time is greater than a couple hours
+     */
   }
 </script>
 
 <div class="time-blocks">
   {#each chunkTimes as chunk}
-    <TimeChunk bind:todoText={chunk} bind:todoId={chunk} />
+    <TimeChunk bind:todoTime={chunk.time} bind:todo={chunk.todo} />
   {/each}
 </div>
 

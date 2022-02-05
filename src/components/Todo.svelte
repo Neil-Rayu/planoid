@@ -1,27 +1,26 @@
 <script>
   import { todoData, toggleImportantFlag, toggleUrgentFlag } from '../stores/todoStore';
 
-  export let todoText;
-  export let todoId;
+  export let todo;
   //export let flag = [];
 
   let TodoHolder;
   let important;
   let urgent;
 
-  let idNum = $todoData.findIndex((t) => t.id === todoId);
+  // let idNum = $todoData.findIndex((t) => t.id === todoId);
 
   function addImportant() {
-    toggleImportantFlag(idNum);
-    important.style.color = true ? '#ffc00a' : '#fff';
+    toggleImportantFlag(todo);
+    important.style.color = todo.importantFlag ? '#ffc00a' : '#fff';
     $todoData = $todoData;
     // $urgentImportantTodo.find(
     //   ($urgentImportantTodo) => $urgentImportantTodo.id === todoId
     // ).importantFlag = true;
   }
   function addUrgent() {
-    toggleUrgentFlag(idNum);
-    urgent.style.color = true ? '#ffc00a' : '#fff';
+    toggleUrgentFlag(todo);
+    urgent.style.color = todo.urgentFlag ? '#ffc00a' : '#fff';
     $todoData = $todoData;
     // $urgentImportantTodo.find(
     //   ($urgentImportantTodo) => $urgentImportantTodo.id === todoId
@@ -31,8 +30,8 @@
 
 <div class="todo-container">
   <div class="task-wrapper">
-    <input id={todoId} type="checkbox" />
-    <label for={todoId}>{todoText}</label>
+    <input id={todo.id} type="checkbox" />
+    <label for={todo.id}>{todo.name}</label>
   </div>
   <div class="important-icon-wrapper">
     <span bind:this={important} on:click={addImportant}>I</span>

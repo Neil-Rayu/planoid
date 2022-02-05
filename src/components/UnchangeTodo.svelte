@@ -1,28 +1,50 @@
 <script>
   import { DateInput } from 'date-picker-svelte';
-  import { addDate } from '../stores/todoStore';
-  export let todoText;
-  export let todoId;
+  import { empty, insert } from 'svelte/internal';
+  import { addDate, insertChunk, setRange, setHasDate } from '../stores/todoStore';
+  export let todo;
   let todoDate;
   //export let flag = [];
   let dateToggle = false;
   function toggle() {
     dateToggle = !dateToggle;
   }
+
+  let sHour;
+  let sMin;
+  let eHour;
+  let eMin;
+
+  $: todoRange = {
+    startHour: sHour,
+    startMin: sMin,
+    endHour: eHour,
+    endMin: eMin
+  };
   function onSubmit() {
-    addDate(todoDate, todoId);
+    addDate(todoDate.toLocaleDateString(), todo);
+    setRange(todoRange, todo);
   }
 </script>
 
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
 <div class="task-container">
-  <li id={todoId}>{todoText}</li>
+  <li id={todo.id}>{todo.name}</li>
   <span class="material-icons" on:click={toggle}> calendar_month </span>
   {#if dateToggle}
     <div class="calendar">
-      <DateInput bind:value={todoDate} format={'yyyy/MM/dd'} />
-      <input type="text" id="time-span-input" placeholder="Formate: x:xx-x:xx" />
+      <!-- format={'yyyy/MM/dd'} -->
+      <DateInput bind:value={todoDate} format={'MM/dd/yyyy'} />
+      <div class="range-input">
+        <input type="number" bind:value={sHour} />
+        <label for="">:</label>
+        <input type="number" bind:value={sMin} />
+        <label for="">-</label>
+        <input type="number" bind:value={eHour} />
+        <label for="">:</label>
+        <input type="number" bind:value={eMin} />
+      </div>
       <input type="button" on:click={onSubmit} value="Submit" />
     </div>
   {/if}
@@ -49,6 +71,29 @@
     .calendar {
       display: flex;
       flex-direction: column;
+      .range-input {
+        display: flex;
+        flex-direction: row;
+        input {
+          width: 12%;
+          background-color: rgba(255, 255, 255, 0.05);
+          color: white;
+          outline: none;
+          border: none;
+          &::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 0;
+          }
+          &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 0;
+          }
+        }
+      }
     }
   }
 </style>

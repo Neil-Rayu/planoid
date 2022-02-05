@@ -1,7 +1,6 @@
 <script lang="ts">
   import Todo from './Todo.svelte';
   import { todoData, addTodo } from '../stores/todoStore';
-  import { prevent_default } from 'svelte/internal';
 
   let date = new Date().toLocaleDateString('en-US', {
     day: 'numeric',
@@ -30,7 +29,9 @@
       idNum: idNumber,
       id: todoId,
       urgentImportantId: todoUrgentImportantId,
-      backburnerId: todoBackburnerId
+      backburnerId: todoBackburnerId,
+      range: null,
+      date: null
     });
     todoText = '';
   }
@@ -66,7 +67,7 @@
     <div on:click={openTask} class="add-task-open">Add Task (+)</div>
     <div id="task-wrapper">
       {#each $todoData as todo}
-        <Todo bind:todoText={todo.name} bind:todoId={todo.id} />
+        <Todo bind:todo/>
       {/each}
     </div>
     <div bind:this={inner} class="input-container">
