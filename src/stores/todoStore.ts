@@ -29,12 +29,7 @@ export const settingToggle = writable(false);
 export const startEndData = writable({ start: 8, end: 20 });
 export const chunkData: Writable<string[]> = writable([]);
 export const dateHasTodo: Writable<hasTodo[]> = writable([]);
-const chunkTimes = [];
-for (let i = 8; i < 20; i++) {
-  chunkTimes.push(`${i}:00-${i + 1}:00`);
-}
 
-setChunkList(chunkTimes);
 export function addTodo(todo: Todo): void {
   todoData.update(($todoData) => {
     $todoData = [...$todoData, todo];

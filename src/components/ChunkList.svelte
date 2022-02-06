@@ -19,21 +19,26 @@
   console.log(todos);
   let chunkTimes = [];
   let length = todos.length;
+  for (let i = Number($startEndData.start); i < Number($startEndData.end); i++) {
+    chunkTimes.push({ time: `${i}:00-${i + 1}:00`, todo: null });
+  }
   if (length > 0) {
     let t = 0;
     for (let i = Number($startEndData.start); i < Number($startEndData.end); i++) {
       if (t < length && todos.at(t).range.startHour < i) {
-        chunkTimes.push({
+        chunkTimes[i - 1 - $startEndData.start] = {
           time: `${i - 1}:00-${todos[t].range.startHour}:${todos[t].range.startMin}`,
           todo: null
-        });
-        chunkTimes.push({
-          time: `${todos[t].range.startHour}:${todos[t].range.startMin}-${todos[t].range.endMin}:00`,
+        };
+        chunkTimes[i - $startEndData.start] = {
+          time: `${todos[t].range.startHour}:${todos[t].range.startMin}-${todos[t].range.endHour}:${todos[t].range.endMin}`,
           todo: todos[t]
+        };
+        chunkTimes.splice(i - $startEndData.start + 1, 0, {
+          time: `${todos[t].range.endHour}:${todos[t].range.endMin}-${i + 1}:00`,
+          todo: null
         });
         t++;
-      } else {
-        chunkTimes.push({ time: `${i}:00-${i + 1}:00`, todo: null });
       }
     }
     /**
