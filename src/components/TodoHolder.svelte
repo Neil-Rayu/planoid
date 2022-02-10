@@ -45,6 +45,9 @@
     align-items: flex-start;
     margin-top: 2%;
     margin-right: 2%;
+    overflow: auto;
+    overflow-x: hidden;
+
     .todo-list {
       display: flex;
       flex-direction: column;

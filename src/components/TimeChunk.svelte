@@ -1,35 +1,126 @@
 <script>
   export let todoTime;
   export let todo;
-  //export let flag = [];
+  import { bind } from 'svelte/internal';
+  import { addTodo, setRange } from '../stores/todoStore';
+  import RangeSelector from './RangeSelector.svelte';
+  //export let flag = [];\
+  let todoBlock;
+  function onInsert() {
+    document.createElement('form');
+
+    todoBlock.appendChild();
+  }
+  let taskName;
+  let taskLength;
+  let todoRange;
+
+  function onSubmit() {
+    let newTodo = {
+      name: taskName,
+      importantFlag: true,
+      urgentFlag: true,
+      idNum: todo.idNum + 1,
+      id: 'insertedID' + (todo.idNum + 1),
+      urgentImportantId: 'UI' + (todo.idNum + 1),
+      backburnerId: 'Backburner' + (todo.idNum + 1),
+      range: todoRange,
+      date: todo.date
+    };
+    addTodo(todo);
+  }
+  let insert;
+  let visible = false;
+  function openInsert() {
+    insert.style.visibility = 'visible';
+  }
 </script>
 
 {#if todo != null}
-  <li id={todo.id}>{todoTime}:<input type="text" value={todo.name} /></li>
+  <div id={todo.id} class="todo-chunk" bind:this={todoBlock}>
+    <div class="bottom-content">
+      <span> <span style="color: #ffc00a; font-weight:bolder;">- </span>{todoTime}:</span>
+      <input type="text" value={todo.name} />
+    </div>
+    <img
+      on:click={onInsert}
+      class="down-arrow"
+      src="../static/Down_Facing-Insert.svg"
+      alt="Insert Below"
+    />
+  </div>
 {:else}
-  <li id={todoTime}>{todoTime}:<input type="text" placeholder="add a task" /></li>
+  <div class="todo-wrapper">
+    <div id={todoTime} class="todo-chunk">
+      <div class="bottom-content">
+        <span><span style="color: #ffc00a; font-weight:bolder;">- </span>{todoTime}:</span>
+        <input type="text" placeholder="add a task" />
+      </div>
+      <img
+        class="down-arrow"
+        on:click={openInsert}
+        src="../static/Down_Facing-Insert.svg"
+        alt="Insert Below"
+      />
+    </div>
+    <div class="insert-box" bind:this={insert}>
+      <div class="range-input">
+        <input type="text" bind:value={taskName} placeholder="Task Name" />
+        <RangeSelector bind:todoRange />
+      </div>
+      <input type="button" on:click={onSubmit} value="Submit" />
+    </div>
+  </div>
 {/if}
 
 <style lang="scss">
-  li {
-    &:not(:last-child) {
-      margin-bottom: 3px;
+  .todo-wrapper {
+    display: flex;
+
+    .insert-box {
+      visibility: hidden;
     }
-    &:before {
-      content: '\2022'; /* Add content: \2022 is the CSS Code/unicode for a bullet */
-      color: #ffc00a; /* Change the color */
-      font-weight: bold; /* If you want it to be bold */
-      display: inline-block; /* Needed to add space between the bullet and the text */
-      width: 1em; /* Also needed for space (tweak if needed) */
-      margin-left: -1em; /* Also needed for space (tweak if needed) */
-    }
-    input {
-      margin-left: 3%;
-      appearance: none;
-      background-color: #121212;
-      color: white;
-      border: none;
-      font-size: medium;
+
+    .todo-chunk {
+      display: flex;
+      flex-direction: column;
+      width: 30%;
+      &:last-child {
+        .down-arrow {
+          display: none;
+        }
+      }
+      &:not(:last-child) {
+        .down-arrow {
+          visibility: hidden;
+          cursor: pointer;
+        }
+        &:hover {
+          .down-arrow {
+            visibility: visible;
+          }
+        }
+      }
+      .bottom-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        &:not(:last-child) {
+          margin-bottom: 3px;
+        }
+
+        span {
+          color: white; /* Change the color */
+        }
+        input {
+          margin-left: 3%;
+          appearance: none;
+          background-color: #121212;
+          color: white;
+          border: none;
+          font-size: medium;
+        }
+      }
     }
   }
 </style>

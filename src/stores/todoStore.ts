@@ -75,6 +75,7 @@ export function setStartTime(startTime: number): void {
 export function setEndTime(endTime: number): void {
   startEndData.update(($startEndData) => {
     $startEndData.end = endTime;
+    //$startEndData = $startEndData;
     return $startEndData;
   });
 }
@@ -85,23 +86,27 @@ export function setChunkList(chunkList: string[]): void {
     return $chunkData;
   });
 }
-
-export function insertChunk(range: Range): void {
-  chunkData.update(($chunkData) => {
-    if (range.startMin == 0) {
-      $chunkData[range.startHour - 1] = `${range.startHour}:00-${range.endHour}`;
-    } else {
-      $chunkData[range.startHour - 2] = `${range.startHour - 1}:00-${range.startHour}:${
-        range.startMin
-      }`;
-      $chunkData[
-        range.startHour - 1
-      ] = `${range.startHour}:${range.startMin}-${range.endHour}:${range.endMin}`;
-      $chunkData[range.startHour] = `${range.endHour}:${range.endMin}-${range.endHour + 1}:00`;
-    }
-    return $chunkData;
-  });
-}
+//let t = 0;
+// export function insertChunk(range: Range): void {
+//   chunkData.update(($chunkData) => {
+//     if (t < length && todos.at(t).range.startHour < i) {
+//       chunkData[i - 1 - $startEndData.start] = {
+//         time: `${i - 1}:00-${todos[t].range.startHour}:${todos[t].range.startMin}`,
+//         todo: null
+//       };
+//       chunkData[i - $startEndData.start] = {
+//         time: `${todos[t].range.startHour}:${todos[t].range.startMin}-${todos[t].range.endHour}:${todos[t].range.endMin}`,
+//         todo: todos[t]
+//       };
+//       chunkData.splice(i - $startEndData.start + 1, 0, {
+//         time: `${todos[t].range.endHour}:${todos[t].range.endMin}-${i + 1}:00`,
+//         todo: null
+//       });
+//       t++;
+//     }
+//     return $chunkData;
+//   });
+// }
 
 export function setRange(range: Range, todo: Todo): void {
   console.log(range);

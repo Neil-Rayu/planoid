@@ -2,7 +2,7 @@
 </script>
 
 <svelte-head>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
 </svelte-head>
 
 <div class="sidebar">
@@ -18,6 +18,10 @@
     <div id="energy-data-tab" class="tab-container">
       <span class="material-icons"> trending_up </span>
       <a href="/EnergyChart" class="tab-text"> Energy Chart</a>
+    </div>
+    <div id="reward-system-data-tab" class="tab-container">
+      <span class="material-icons-outlined"> paid </span>
+      <a href="/PointSystem" class="tab-text"> Reward System</a>
     </div>
     <!-- <div id="project-tab" class="tab-container">x</div> -->
   </div>

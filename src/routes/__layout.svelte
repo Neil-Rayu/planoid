@@ -5,20 +5,21 @@
   import Sidebar from '../components/Sidebar.svelte';
   import { pageData } from '../stores/todoStore';
   let settings;
+  let appWrraper;
 
-  if (!$settingToggle) {
-    //settings.stlye.visibility = 'hidden';
+  if ($settingToggle) {
   } else {
     //settings.stlye.visibility = 'visible';
   }
 </script>
 
-<div class="app-wrapper">
+<div class="app-wrapper" bind:this={appWrraper}>
   <Topbar bind:topbarHeading={$pageData} />
   <div class="bottom-content">
     <Sidebar />
     {#if $settingToggle}
       <Settings bind:this={settings} />
+      {(appWrraper.style.background = 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7))')}
     {/if}
     <slot class="main-content" />
   </div>

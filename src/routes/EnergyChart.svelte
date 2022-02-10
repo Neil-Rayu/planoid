@@ -6,4 +6,10 @@
 <svelte-head>
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet" />
 </svelte-head>
-<main>hello</main>
+<div class="main-content">hello</div>
+
+<style>
+  .main-content {
+    width: 100%;
+  }
+</style>

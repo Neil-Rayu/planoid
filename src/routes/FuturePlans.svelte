@@ -21,9 +21,16 @@
   </div>
 </div>
 
-<style>
-  .calendar-wrapper {
-    width: 62%;
-    margin-right: 30%;
+<style lang="scss">
+  .main-content {
+    width: 100%;
+    .calendar-wrapper {
+      width: 62%;
+      margin-right: 30%;
+    }
+    .time-chunk-wrapper {
+      line-height: 30px;
+      width: 100%;
+    }
   }
 </style>
