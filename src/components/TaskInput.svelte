@@ -22,17 +22,18 @@
   let todoUrgentFlag = false;
 
   function onSumbit() {
-    addTodo({
-      name: todoText,
-      importantFlag: todoImportantFlag,
-      urgentFlag: todoUrgentFlag,
-      idNum: idNumber,
-      id: todoId,
-      urgentImportantId: todoUrgentImportantId,
-      backburnerId: todoBackburnerId,
-      range: null,
-      date: null
-    });
+    // addTodo({
+    //   name: todoText,
+    //   importantFlag: todoImportantFlag,
+    //   urgentFlag: todoUrgentFlag,
+    //   idNum: idNumber,
+    //   id: todoId,
+    //   urgentImportantId: todoUrgentImportantId,
+    //   backburnerId: todoBackburnerId,
+    //   range: null,
+    //   date: null
+    // });
+    addTodo(todoText);
     todoText = '';
   }
 
@@ -67,7 +68,9 @@
     <div on:click={openTask} class="add-task-open">Add Task (+)</div>
     <div id="task-wrapper">
       {#each $todoData as todo}
-        <Todo bind:todo/>
+        {#if !todo.reocurringEvent}
+          <Todo bind:todo />
+        {/if}
       {/each}
     </div>
     <div bind:this={inner} class="input-container">

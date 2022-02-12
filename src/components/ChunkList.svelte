@@ -1,12 +1,6 @@
 <script>
   export let listDate;
-  import {
-    startEndData,
-    setChunkList,
-    todoData,
-    chunkData,
-    dateHasTodo
-  } from '../stores/todoStore';
+  import { startEndData, setChunkList, todoData, chunkData } from '../stores/todoStore';
   import TimeChunk from '../components/TimeChunk.svelte';
   console.log(listDate);
   //console.log($todoData.at(0).date);
@@ -19,6 +13,12 @@
   console.log(todos);
   let chunkTimes = [];
   let length = todos.length;
+  let recEvents = [];
+  // if ($recEventData.length > 0) {
+  //   recEvents = $recEventData
+  //     .filter(($recEventData) => $recEventData.days.includes(listDate.getDate()))
+  //     .sort(($recEventData) => $recEventData.range.startHour);
+  // }
   for (let i = Number($startEndData.start); i < Number($startEndData.end); i++) {
     chunkTimes.push({ time: `${i}:00-${i + 1}:00`, todo: null });
   }

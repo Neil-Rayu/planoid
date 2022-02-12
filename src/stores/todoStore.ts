@@ -1,38 +1,33 @@
+import type { Todo, Range } from 'src/types';
 import { type Writable, writable } from 'svelte/store';
-
-interface Range {
-  startHour: number;
-  startMin: number;
-  endHour: number;
-  endMin: number;
-}
-
-interface hasTodo {
-  date: Date;
-  hasTodo: boolean;
-}
-interface Todo {
-  name: string;
-  importantFlag: boolean;
-  urgentFlag: boolean;
-  idNum: number;
-  id: string;
-  urgentImportantId: string;
-  backburnerId: string;
-  range: Range;
-  date: Date;
-}
 
 export const todoData: Writable<Todo[]> = writable([]);
 export const pageData = writable('');
 export const settingToggle = writable(false);
 export const startEndData = writable({ start: 8, end: 20 });
 export const chunkData: Writable<string[]> = writable([]);
-export const dateHasTodo: Writable<hasTodo[]> = writable([]);
+//export const recEventData: Writable<reocurringEvent[]> = writable([]);
 
-export function addTodo(todo: Todo): void {
+// export function addTodo(todo: Todo): void {
+//   todoData.update(($todoData) => {
+//     $todoData = [...$todoData, todo];
+//     return $todoData;
+//   });
+// }
+
+export function addTodo(name: string): void {
   todoData.update(($todoData) => {
-    $todoData = [...$todoData, todo];
+    const idNumber = $todoData.length > 0 ? $todoData.at(-1).idNum + 1 : 0;
+    const todoId = 'main-todo-' + idNumber;
+
+    $todoData = [
+      ...$todoData,
+      {
+        name: name,
+        idNum: idNumber,
+        id: todoId
+      }
+    ];
     return $todoData;
   });
 }
@@ -51,9 +46,23 @@ export function addDate(todoDate: Date, todo: Todo): void {
   });
 }
 
+export function addDays(todoDays: number[], todo: Todo): void {
+  todoData.update(($todoData) => {
+    todo.days = todoDays;
+    return $todoData;
+  });
+}
+
+export function setRecEvent(todo: Todo): void {
+  todoData.update(($todoData) => {
+    todo.reocurringEvent = true;
+    return $todoData;
+  });
+}
 export function toggleImportantFlag(todo: Todo): void {
   todoData.update(($todoData) => {
     todo.importantFlag = !todo.importantFlag;
+    console.log(todo.importantFlag);
     return $todoData;
   });
 }
@@ -86,6 +95,31 @@ export function setChunkList(chunkList: string[]): void {
     return $chunkData;
   });
 }
+
+export function setRange(range: Range, todo: Todo): void {
+  console.log(range);
+  todoData.update(($todoData) => {
+    todo.range = range;
+    return $todoData;
+  });
+}
+
+// export function setHasDate(date: Date): void {
+//   dateHasTodo.update(($dateHasTodo) => {
+//     if ($dateHasTodo.at($dateHasTodo.findIndex((t) => t.date === date)) == null) {
+//       $dateHasTodo = [...$dateHasTodo, { date: date, hasTodo: true }];
+//     }
+//     return $dateHasTodo;
+//   });
+// }
+
+// export function addRecEvent(rEvent: reocurringEvent): void {
+//   recEventData.update(($recEventData) => {
+//     $recEventData = [...$recEventData, rEvent];
+//     return $recEventData;
+//   });
+// }
+
 //let t = 0;
 // export function insertChunk(range: Range): void {
 //   chunkData.update(($chunkData) => {
@@ -107,20 +141,3 @@ export function setChunkList(chunkList: string[]): void {
 //     return $chunkData;
 //   });
 // }
-
-export function setRange(range: Range, todo: Todo): void {
-  console.log(range);
-  todoData.update(($todoData) => {
-    todo.range = range;
-    return $todoData;
-  });
-}
-
-export function setHasDate(date: Date): void {
-  dateHasTodo.update(($dateHasTodo) => {
-    if ($dateHasTodo.at($dateHasTodo.findIndex((t) => t.date === date)) == null) {
-      $dateHasTodo = [...$dateHasTodo, { date: date, hasTodo: true }];
-    }
-    return $dateHasTodo;
-  });
-}

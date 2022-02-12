@@ -4,13 +4,19 @@
   import Settings from '../components/Settings.svelte';
   import Sidebar from '../components/Sidebar.svelte';
   import { pageData } from '../stores/todoStore';
-  let settings;
+  import { onMount } from 'svelte';
+  let settingsT;
   let appWrraper;
 
-  if ($settingToggle) {
-  } else {
-    //settings.stlye.visibility = 'visible';
-  }
+  $: onMount(() => {
+    {
+      // if ($settingToggle) {
+      //   appWrraper.style.background = 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7))';
+      // } else {
+      //   appWrraper.stlye.background = '#fff';
+      // }
+    }
+  });
 </script>
 
 <div class="app-wrapper" bind:this={appWrraper}>
@@ -18,8 +24,7 @@
   <div class="bottom-content">
     <Sidebar />
     {#if $settingToggle}
-      <Settings bind:this={settings} />
-      {(appWrraper.style.background = 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7))')}
+      <Settings />
     {/if}
     <slot class="main-content" />
   </div>

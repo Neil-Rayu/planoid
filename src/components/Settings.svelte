@@ -1,14 +1,44 @@
 <script lang="ts">
-  import { setEndTime, setStartTime } from '../stores/todoStore';
+  import {
+    addDays,
+    addTodo,
+    setEndTime,
+    setRange,
+    setRecEvent,
+    setStartTime,
+    todoData
+  } from '../stores/todoStore';
+  import type { Todo, Range } from '../types';
   import RangeSelector from './RangeSelector.svelte';
 
   let startTime: number;
   let endTime: number;
   let eventName: string;
-  let eventRange: any;
+  let eventRange: Range;
+  let eventDays: number[] = [];
+  let todo: Todo;
+
   function submitSettings() {
     setStartTime(startTime);
     setEndTime(endTime);
+  }
+
+  let recEvent = {
+    name: eventName,
+    range: eventRange,
+    days: eventDays
+  };
+
+  function onDayClick(day: number) {
+    eventDays.push(day);
+  }
+
+  function submitEvent() {
+    addTodo(eventName);
+    addDays(eventDays, $todoData.at(-1));
+    setRange(eventRange, $todoData.at(-1));
+    setRecEvent($todoData.at(-1));
+    console.log($todoData.at(-1));
   }
 </script>
 
@@ -34,13 +64,21 @@
     <hr />
   </div>
   <div class="event-content">
-    <form action="">
+    <form on:submit|preventDefault={submitEvent}>
       <label for="rec-event-name">Event Name:</label>
       <input type="text" id="rec-event-name" bind:value={eventName} />
       <label for="rec-event-time" />
       <RangeSelector bind:todoRange={eventRange} />
       <label for="rec-event-days" />
-      <span>Su Mo Tu We Th Fr Sa</span>
+      <div class="week-selector">
+        <span on:click={() => onDayClick(0)}>Su</span>
+        <span on:click={() => onDayClick(1)}>Mo</span>
+        <span on:click={() => onDayClick(2)}>Tu</span>
+        <span on:click={() => onDayClick(3)}>We</span>
+        <span on:click={() => onDayClick(4)}>Th</span>
+        <span on:click={() => onDayClick(5)}>Fr</span>
+        <span on:click={() => onDayClick(6)}>Sa</span>
+      </div>
       <input type="submit" value="Add Event" />
     </form>
   </div>
@@ -70,9 +108,15 @@
         margin-bottom: 2%;
       }
     }
-    span {
+    .week-selector {
       margin-top: 3%;
       margin-bottom: 3%;
+      span {
+        color: rgba(255, 255, 255, 0.3);
+        &::hover {
+          color: #fff;
+        }
+      }
     }
   }
 </style>

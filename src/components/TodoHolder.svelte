@@ -9,23 +9,15 @@
 <div class="todo-container">
   <span class="title">{title}</span>
   <hr style="width: 100%;" />
-  {#if title === 'Urgent & Important'}
-    <ul class="todo-list">
-      {#each $todoData as todo}
-        {#if todo.urgentFlag == true && todo.importantFlag == true}
-          <UnchangeTodo bind:todo />
-        {/if}
-      {/each}
-    </ul>
-  {:else}
-    <ul class="todo-list">
-      {#each $todoData as todo}
-        {#if todo.importantFlag == true && todo.urgentFlag != true}
-          <UnchangeTodo bind:todo />
-        {/if}
-      {/each}
-    </ul>
-  {/if}
+  <ul class="todo-list">
+    {#each $todoData as todo}
+      {#if title === 'Urgent & Important' && todo.urgentFlag == true && todo.importantFlag == true}
+        <UnchangeTodo bind:todo bind:idPrefix={title} />
+      {:else if title === 'Backburner (Important, but not Urgent)' && todo.importantFlag == true && todo.urgentFlag != true}
+        <UnchangeTodo bind:todo bind:idPrefix={title} />
+      {/if}
+    {/each}
+  </ul>
 </div>
 
 <style lang="scss">

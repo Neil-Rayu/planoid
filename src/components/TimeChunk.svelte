@@ -37,17 +37,27 @@
 </script>
 
 {#if todo != null}
-  <div id={todo.id} class="todo-chunk" bind:this={todoBlock}>
-    <div class="bottom-content">
-      <span> <span style="color: #ffc00a; font-weight:bolder;">- </span>{todoTime}:</span>
-      <input type="text" value={todo.name} />
+  <div class="todo-wrapper">
+    <div id={todo.id} class="todo-chunk" bind:this={todoBlock}>
+      <div class="bottom-content">
+        <span> <span style="color: #ffc00a; font-weight:bolder;">- </span>{todoTime}:</span>
+        <input type="text" value={todo.name} />
+      </div>
+      <img
+        on:click={onInsert}
+        class="down-arrow"
+        src="../static/Down_Facing-Insert.svg"
+        alt="Insert Below"
+      />
     </div>
-    <img
-      on:click={onInsert}
-      class="down-arrow"
-      src="../static/Down_Facing-Insert.svg"
-      alt="Insert Below"
-    />
+
+    <div class="insert-box" bind:this={insert}>
+      <div class="range-input">
+        <input type="text" bind:value={taskName} placeholder="Task Name" />
+        <RangeSelector bind:todoRange />
+      </div>
+      <input type="button" on:click={onSubmit} value="Submit" />
+    </div>
   </div>
 {:else}
   <div class="todo-wrapper">

@@ -1,8 +1,9 @@
 <script>
   import { DateInput } from 'date-picker-svelte';
-  import { addDate, setRange, setHasDate } from '../stores/todoStore';
+  import { addDate, setRange } from '../stores/todoStore';
   import RangeSelector from './RangeSelector.svelte';
   export let todo;
+  export let idPrefix;
   let todoDate;
   //export let flag = [];
   let dateToggle = false;
@@ -20,7 +21,7 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
 <div class="task-container">
-  <li id={todo.id}>{todo.name}</li>
+  <li id={`${idPrefix}-${todo.idNum}`}>{todo.name}</li>
   <span class="material-icons" on:click={toggle}> calendar_month </span>
   {#if dateToggle}
     <div class="calendar">
