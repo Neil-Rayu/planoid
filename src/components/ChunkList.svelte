@@ -1,6 +1,12 @@
 <script>
   export let listDate;
-  import { startEndData, setChunkList, todoData, chunkData } from '../stores/todoStore';
+  import {
+    startEndData,
+    setChunkList,
+    todoData,
+    chunkData,
+    insertChunk
+  } from '../stores/todoStore';
   import TimeChunk from '../components/TimeChunk.svelte';
   console.log(listDate);
   //console.log($todoData.at(0).date);
@@ -22,31 +28,33 @@
   for (let i = Number($startEndData.start); i < Number($startEndData.end); i++) {
     chunkTimes.push({ time: `${i}:00-${i + 1}:00`, todo: null });
   }
-  $: if (length > 0) {
-    let t = 0;
-    //Todo: Make reactive, inreament by chunk length/60
-    for (let i = $startEndData.start; i < $startEndData.end; i++) {
-      if (t < length && todos.at(t).range.startHour < i) {
-        chunkTimes[i - 1 - $startEndData.start] = {
-          time: `${i - 1}:00-${todos[t].range.startHour}:${todos[t].range.startMin}`,
-          todo: null
-        };
-        chunkTimes[i - $startEndData.start] = {
-          time: `${todos[t].range.startHour}:${todos[t].range.startMin}-${todos[t].range.endHour}:${todos[t].range.endMin}`,
-          todo: todos[t]
-        };
-        chunkTimes.splice(i - $startEndData.start + 1, 0, {
-          time: `${todos[t].range.endHour}:${todos[t].range.endMin}-${i + 1}:00`,
-          todo: null
-        });
-        t++;
-      }
-    }
-    /**
-     * Todo: port this for loop over to the store
-     * so it can be used in chunk
-     */
-  }
+  setChunkList(chunkTimes);
+  insertChunk(todos);
+  // $: if (length > 0) {
+  //   let t = 0;
+  //   //Todo: Make reactive, inreament by chunk length/60
+  //   for (let i = $startEndData.start; i < $startEndData.end; i++) {
+  //     if (t < length && todos.at(t).range.startHour < i) {
+  //       chunkTimes[i - 1 - $startEndData.start] = {
+  //         time: `${i - 1}:00-${todos[t].range.startHour}:${todos[t].range.startMin}`,
+  //         todo: null
+  //       };
+  //       chunkTimes[i - $startEndData.start] = {
+  //         time: `${todos[t].range.startHour}:${todos[t].range.startMin}-${todos[t].range.endHour}:${todos[t].range.endMin}`,
+  //         todo: todos[t]
+  //       };
+  //       chunkTimes.splice(i - $startEndData.start + 1, 0, {
+  //         time: `${todos[t].range.endHour}:${todos[t].range.endMin}-${i + 1}:00`,
+  //         todo: null
+  //       });
+  //       t++;
+  //     }
+  //   }
+  //   /**
+  //    * Todo: port this for loop over to the store
+  //    * so it can be used in chunk
+  //    */
+  // }
 </script>
 
 <div class="time-blocks">

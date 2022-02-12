@@ -5,15 +5,7 @@ export const todoData: Writable<Todo[]> = writable([]);
 export const pageData = writable('');
 export const settingToggle = writable(false);
 export const startEndData = writable({ start: 8, end: 20 });
-export const chunkData: Writable<string[]> = writable([]);
-//export const recEventData: Writable<reocurringEvent[]> = writable([]);
-
-// export function addTodo(todo: Todo): void {
-//   todoData.update(($todoData) => {
-//     $todoData = [...$todoData, todo];
-//     return $todoData;
-//   });
-// }
+export const chunkData: Writable<{ time: string; todo: Todo }[]> = writable([]);
 
 export function addTodo(name: string): void {
   todoData.update(($todoData) => {
@@ -89,7 +81,7 @@ export function setEndTime(endTime: number): void {
   });
 }
 
-export function setChunkList(chunkList: string[]): void {
+export function setChunkList(chunkList: { time: string; todo: Todo }[]): void {
   chunkData.update(($chunkData) => {
     $chunkData = chunkList;
     return $chunkData;
@@ -101,6 +93,38 @@ export function setRange(range: Range, todo: Todo): void {
   todoData.update(($todoData) => {
     todo.range = range;
     return $todoData;
+  });
+}
+
+export function insertChunk(todos: Todo[]): void {
+  chunkData.update(($chunkData) => {
+    let start: number;
+    let end: number;
+    const unsubscribe = startEndData.subscribe(($startEndData) => {
+      start = $startEndData.start;
+      end = $startEndData.end;
+    });
+    let t = 0;
+    const length = todos.length;
+    for (let i = start; i < end; i++) {
+      if (t < length && todos.at(t).range.startHour < i) {
+        $chunkData[i - 1 - start] = {
+          time: `${i - 1}:00-${todos[t].range.startHour}:${todos[t].range.startMin}`,
+          todo: null
+        };
+        $chunkData[i - start] = {
+          time: `${todos[t].range.startHour}:${todos[t].range.startMin}-${todos[t].range.endHour}:${todos[t].range.endMin}`,
+          todo: todos[t]
+        };
+        $chunkData.splice(i - start + 1, 0, {
+          time: `${todos[t].range.endHour}:${todos[t].range.endMin}-${i + 1}:00`,
+          todo: null
+        });
+        t++;
+      }
+    }
+    unsubscribe;
+    return $chunkData;
   });
 }
 
@@ -121,23 +145,11 @@ export function setRange(range: Range, todo: Todo): void {
 // }
 
 //let t = 0;
-// export function insertChunk(range: Range): void {
-//   chunkData.update(($chunkData) => {
-//     if (t < length && todos.at(t).range.startHour < i) {
-//       chunkData[i - 1 - $startEndData.start] = {
-//         time: `${i - 1}:00-${todos[t].range.startHour}:${todos[t].range.startMin}`,
-//         todo: null
-//       };
-//       chunkData[i - $startEndData.start] = {
-//         time: `${todos[t].range.startHour}:${todos[t].range.startMin}-${todos[t].range.endHour}:${todos[t].range.endMin}`,
-//         todo: todos[t]
-//       };
-//       chunkData.splice(i - $startEndData.start + 1, 0, {
-//         time: `${todos[t].range.endHour}:${todos[t].range.endMin}-${i + 1}:00`,
-//         todo: null
-//       });
-//       t++;
-//     }
-//     return $chunkData;
+
+//export const recEventData: Writable<reocurringEvent[]> = writable([]);
+// export function addTodo(todo: Todo): void {
+//   todoData.update(($todoData) => {
+//     $todoData = [...$todoData, todo];
+//     return $todoData;
 //   });
 // }
