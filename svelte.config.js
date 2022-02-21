@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-auto';
+import firebase from 'svelte-adapter-firebase';
 import preprocess from 'svelte-preprocess';
 import { sveltePreprocess } from 'svelte-preprocess/dist/autoProcess.js';
 
@@ -9,7 +9,7 @@ const config = {
   preprocess: [preprocess(), sveltePreprocess()],
 
   kit: {
-    adapter: adapter(),
+    adapter: firebase(),
     vite: {
       ssr: {
         noExternal: ['dayjs']

@@ -1,6 +1,7 @@
 <script lang="ts">
   import Todo from './Todo.svelte';
-  import { todoData, addTodo } from '../stores/todoStore';
+  import { todoData, addTodo, persist } from '../stores/todoStore';
+  import { userStore } from '../stores/userStore';
 
   let date = new Date().toLocaleDateString('en-US', {
     day: 'numeric',
@@ -34,6 +35,7 @@
     //   date: null
     // });
     addTodo(todoText);
+    persist(todoText, $userStore.user);
     todoText = '';
   }
 
@@ -74,11 +76,12 @@
       {/each}
     </div>
     <div bind:this={inner} class="input-container">
-      <form action="" class="taskForm" on:submit|preventDefault={onSumbit}>
+      <form action="" method="" class="taskForm" on:submit|preventDefault={onSumbit}>
         <input
           bind:value={todoText}
           type="text"
           id="task-input"
+          name="task-input"
           placeholder="Format: (task name, length, location)"
         />
         <input type="Submit" name="submit" value="Add" class="add-task-button" />

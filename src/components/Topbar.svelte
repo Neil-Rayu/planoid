@@ -1,6 +1,31 @@
 <script>
   import { toggleSettings } from '../stores/todoStore';
   export let topbarHeading;
+  import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+
+  async function login() {
+    const provider = new GoogleAuthProvider();
+    const auth = getAuth();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+  }
 </script>
 
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
@@ -10,6 +35,7 @@
     <span class="material-icons">menu</span>
     <span>{topbarHeading}</span>
     <span class="material-icons" on:click={toggleSettings}>settings</span>
+    <span on:click={login} class="material-icons">account_circle</span>
   </div>
 </main>
 

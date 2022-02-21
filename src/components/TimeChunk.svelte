@@ -16,18 +16,20 @@
   let todoRange;
 
   function onSubmit() {
-    let newTodo = {
-      name: taskName,
-      importantFlag: true,
-      urgentFlag: true,
-      idNum: todo.idNum + 1,
-      id: 'insertedID' + (todo.idNum + 1),
-      urgentImportantId: 'UI' + (todo.idNum + 1),
-      backburnerId: 'Backburner' + (todo.idNum + 1),
-      range: todoRange,
-      date: todo.date
-    };
-    addTodo(todo);
+    // let newTodo = {
+    //   name: taskName,
+    //   importantFlag: true,
+    //   urgentFlag: true,
+    //   idNum: todo.idNum + 1,
+    //   id: 'insertedID' + (todo.idNum + 1),
+    //   urgentImportantId: 'UI' + (todo.idNum + 1),
+    //   backburnerId: 'Backburner' + (todo.idNum + 1),
+    //   range: todoRange,
+    //   date: todo.date
+    // };
+    const todo = new addTodo(taskName);
+    todo.setRange(todoRange);
+    console.log(todo);
   }
   let insert;
   let visible = false;

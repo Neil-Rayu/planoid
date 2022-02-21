@@ -7,6 +7,30 @@ export const settingToggle = writable(false);
 export const startEndData = writable({ start: 8, end: 20 });
 export const chunkData: Writable<{ time: string; todo: Todo }[]> = writable([]);
 
+export function persist(name: string, user: any): void {
+  const url = 'http://localhost:3000/timeMgmt';
+
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', url);
+
+  xhr.setRequestHeader('Accept', 'application/json');
+  xhr.setRequestHeader('Content-Type', 'application/json');
+
+  // xhr.onreadystatechange = function () {
+  //   if (xhr.readyState === 4) {
+  //     console.log(xhr.responseText);
+  //   }
+  // };
+
+  const data = `{
+    "name": "${name}",
+    "user": "${user}"
+  }`;
+
+  xhr.send(data);
+  console.log(data);
+}
+
 export function addTodo(name: string): void {
   todoData.update(($todoData) => {
     const idNumber = $todoData.length > 0 ? $todoData.at(-1).idNum + 1 : 0;

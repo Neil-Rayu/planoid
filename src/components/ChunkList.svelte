@@ -50,10 +50,7 @@
   //       t++;
   //     }
   //   }
-  //   /**
-  //    * Todo: port this for loop over to the store
-  //    * so it can be used in chunk
-  //    */
+  //
   // }
 </script>
 
