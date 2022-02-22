@@ -7,7 +7,7 @@ export const settingToggle = writable(false);
 export const startEndData = writable({ start: 8, end: 20 });
 export const chunkData: Writable<{ time: string; todo: Todo }[]> = writable([]);
 
-export function persist(name: string, user: any): void {
+export function persist(name: string): void {
   const url = 'http://localhost:3000/timeMgmt';
 
   const xhr = new XMLHttpRequest();
@@ -23,8 +23,7 @@ export function persist(name: string, user: any): void {
   // };
 
   const data = `{
-    "name": "${name}",
-    "user": "${user}"
+    "name": "${name}"
   }`;
 
   xhr.send(data);

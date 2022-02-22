@@ -12,11 +12,12 @@
   import { getAnalytics } from 'firebase/analytics';
   import { getAuth, onAuthStateChanged } from 'firebase/auth';
   import { userStore } from '../stores/userStore';
+  import { getFirestore } from 'firebase/firestore';
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
   // Initialize Firebase
-  $: onMount(() => {
+  onMount(() => {
     {
       // Your web app's Firebase configuration
       // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -32,13 +33,15 @@
       const app = initializeApp(firebaseConfig);
       const analytics = getAnalytics(app);
       const auth = getAuth();
+      const db = getFirestore();
+
       onAuthStateChanged(auth, (user) => {
         if (user) {
           // User is signed in, see docs for a list of available properties
           // https://firebase.google.com/docs/reference/js/firebase.User
           const uid = user.uid;
           // ...
-          userStore.set({ isLoggedIn: true, user: uid });
+          userStore.set({ isLoggedIn: true, user: uid, database: db });
         } else {
           // User is signed out
           // ...
@@ -63,6 +66,7 @@
   </div>
 {:else}
   <div class="app-wrapper">
+    <Topbar bind:topbarHeading={$pageData} />
     <div class="landing-page">Please log in</div>
   </div>
 {/if}
@@ -77,6 +81,7 @@
     padding-top: 0px;
     flex-direction: column;
     width: 100%;
+    background-color: #121212;
   }
   .bottom-content {
     display: flex;

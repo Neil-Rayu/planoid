@@ -11,16 +11,16 @@
   // let idNum = $todoData.findIndex((t) => t.id === todoId);
 
   function addImportant() {
-    toggleImportantFlag(todo);
-    important.style.color = todo.importantFlag ? '#ffc00a' : '#fff';
+    //toggleImportantFlag(todo);
+    //important.style.color = todo.importantFlag ? '#ffc00a' : '#fff';
     $todoData = $todoData;
     // $urgentImportantTodo.find(
     //   ($urgentImportantTodo) => $urgentImportantTodo.id === todoId
     // ).importantFlag = true;
   }
   function addUrgent() {
-    toggleUrgentFlag(todo);
-    urgent.style.color = todo.urgentFlag ? '#ffc00a' : '#fff';
+    //toggleUrgentFlag(todo);
+    //urgent.style.color = todo.urgentFlag ? '#ffc00a' : '#fff';
     $todoData = $todoData;
     // $urgentImportantTodo.find(
     //   ($urgentImportantTodo) => $urgentImportantTodo.id === todoId
@@ -30,8 +30,8 @@
 
 <div class="todo-container">
   <div class="task-wrapper">
-    <input id={todo.id} type="checkbox" />
-    <label for={todo.id}>{todo.name}</label>
+    <input id={todo} type="checkbox" />
+    <label for={todo}>{todo}</label>
   </div>
   <div class="important-icon-wrapper">
     <span bind:this={important} on:click={addImportant}>I</span>

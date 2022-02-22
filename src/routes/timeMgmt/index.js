@@ -1,22 +1,42 @@
-import db from '$lib/db';
-import { addDoc, collection } from 'firebase/firestore';
+import { getApp } from '@firebase/app';
+import { addDoc, collection, getDocs, getFirestore } from 'firebase/firestore';
+import { userStore } from '../../stores/userStore';
 
-export async function get(req) {
+export async function get({ request }) {
+  const user = request.query.get('user');
+  let todos;
+  // const querySnapshot = await getDocs(collection('s', 'users'));
+  // querySnapshot.docs.filter((doc) => {
+  //   doc.data.arguments.user === user;
+  // });
+
   return {
     status: 200,
     body: {
-      todo: 'todo'
+      todos: 'todo'
     }
   };
 }
 
 export async function post({ request }) {
+  let db;
+  if (getApp() != null) {
+    db = getFirestore();
+  }
+  let user = 'test';
+  // userStore.subscribe((user) => {
+  //   console.log(user);
+  //   if (user.database != null) {
+  //     db = user.database;
+  //     user = user.user;
+  //   } else {
+  //     console.log('wtf did you do to get to this point');
+  //   }
+  // });
   let name;
-  let user;
 
   await request.json().then((data) => {
     name = data.name;
-    user = data.user;
   });
 
   if (!(name || user)) {
@@ -37,23 +57,6 @@ export async function post({ request }) {
     console.error('Error adding document: ', e);
   }
 
-  //const { id } = req.params;
-  //console.log(id);
-
-  //const db = await connectToDB();
-  // OLD MYSQL DATABASE ****
-  // db.query(
-  //   'INSERT INTO timemgmtschema.todos (username, todoname, todoID, importantFlag, urgenFlag, startTime, endTime, days, recEvent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-  //   ['neil', name, 1, 1, 1, 7, 8, 'all', 1],
-  //   function (error, results, fields) {
-  //     if (error) throw error;
-  //     return {
-  //       status: 200,
-  //       body: { error: false, data: results, message: 'New todo has been created successfully.' }
-  //     };
-  //   }
-  // );
-  //return text;
   return {
     status: 200,
     body: {

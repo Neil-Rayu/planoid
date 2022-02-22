@@ -2,6 +2,8 @@
   import Todo from './Todo.svelte';
   import { todoData, addTodo, persist } from '../stores/todoStore';
   import { userStore } from '../stores/userStore';
+  import { collection, query, where, onSnapshot } from 'firebase/firestore';
+  import { onDestroy, onMount } from 'svelte';
 
   let date = new Date().toLocaleDateString('en-US', {
     day: 'numeric',
@@ -22,38 +24,22 @@
   let todoImportantFlag = false;
   let todoUrgentFlag = false;
 
+  $: todos = [];
+  let unsubscribe;
+  $: onMount(() => {
+    const q = query(collection($userStore.database, 'todos'), where('user', '==', $userStore.user));
+    unsubscribe = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        console.log(doc.data().name);
+        todos = [...todos, doc.data().name];
+      });
+    });
+  });
+  console.log(todos);
   function onSumbit() {
-    // addTodo({
-    //   name: todoText,
-    //   importantFlag: todoImportantFlag,
-    //   urgentFlag: todoUrgentFlag,
-    //   idNum: idNumber,
-    //   id: todoId,
-    //   urgentImportantId: todoUrgentImportantId,
-    //   backburnerId: todoBackburnerId,
-    //   range: null,
-    //   date: null
-    // });
-    addTodo(todoText);
-    persist(todoText, $userStore.user);
+    persist(todoText);
     todoText = '';
   }
-
-  // function addHabitStack() {
-  // 	todoData.push(todoText.split(',')[0]);
-  // 	timeData.push(todoText.split(',')[1]);
-  // 	locData.push(todoText.split(',')[2]);
-  // 	// const checkbox = document.createElement('Todo');
-  // 	// checkbox.type = 'checkbox';
-  // 	todoText =
-  // 		'I will do ' +
-  // 		todoData.at(-1) +
-  // 		' in my ' +
-  // 		locData.at(-1) +
-  // 		' when the clock strikes ' +
-  // 		timeData.at(-1);
-  // 	//taskWrapper.appendChild(checkbox);
-  // }
 
   function openTask() {
     inner.style.clipPath = 'circle(75%)';
@@ -62,6 +48,7 @@
   function closeTask() {
     inner.style.clipPath = 'circle(0%)';
   }
+  onDestroy(unsubscribe);
 </script>
 
 <main>
@@ -69,10 +56,10 @@
     <div class="date-container">Today - {date}</div>
     <div on:click={openTask} class="add-task-open">Add Task (+)</div>
     <div id="task-wrapper">
-      {#each $todoData as todo}
-        {#if !todo.reocurringEvent}
-          <Todo bind:todo />
-        {/if}
+      {#each todos as todo}
+        <!-- {#if !todo.reocurringEvent} -->
+        <Todo bind:todo />
+        <!-- {/if} -->
       {/each}
     </div>
     <div bind:this={inner} class="input-container">
